@@ -23,7 +23,7 @@ const ShareComponent = ({ url, title, description, imageUrl }) => {
                 <meta charset="utf-8" />
                 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
                 <meta property="type" content="website" />
-                <meta property="image" content={image} />
+                <meta property="image" content={imageUrl} /> {/* Corrected from image to imageUrl */}
                 <meta property="og:title" content={title} />
                 <meta property="og:description" content={description} />
                 <meta property="og:image" content={imageUrl} />
