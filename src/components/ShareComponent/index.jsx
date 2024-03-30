@@ -23,12 +23,18 @@ const ShareComponent = ({ url, title, description, imageUrl }) => {
                 <meta charset="utf-8" />
                 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
                 <meta property="type" content="website" />
-                <meta property="image" content={imageUrl} /> {/* Corrected from image to imageUrl */}
+                <meta property="image" content={imageUrl} /> 
+                <meta property="twitter:card" content={description}/>
+                <meta property="twitter:title" content={title}/>
+                <meta property="twitter:image" content={imageUrl}/>
+                <meta property="twitter:description" content={description}/>
+                <meta property="description" content={description} />
                 <meta property="og:title" content={title} />
                 <meta property="og:description" content={description} />
                 <meta property="og:image" content={imageUrl} />
                 <meta property="og:url" content={url} />
                 <meta content="image/*" property="og:image:type" />
+
             </Helmet>
             <FacebookShareButton
                 url={url}
