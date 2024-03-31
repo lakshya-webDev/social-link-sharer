@@ -1,9 +1,17 @@
 import React from 'react';
 import ShareComponent from '../ShareComponent';
+import { Helmet } from 'react-helmet';
 const Card = ({ data }) => {
     return (
         <div className="card">
-            <img src="https://media.istockphoto.com/id/513247652/photo/panoramic-beautiful-view-of-mount-ama-dablam.jpg?s=1024x1024&w=is&k=20&c=ZKAEiIpjE9z6pmpZFVvnG_ymfsrZD7wFVPoB0LpLDYA=" alt={data.title} />
+            <Helmet>
+                <title>{data.title}</title>
+                <meta property="og:title" content={data.title} />
+                <meta property="og:description" content={data.body} />
+                <meta property="og:image" content={data.imageUrl} />
+                <meta property="og:url" content={window.location.href} />
+            </Helmet>
+            <img src={data.imageUrl} alt={data.title} />
             <div className='card-body'>
                 <h2 className="tittle">{data.title}</h2>
                 <p>{data.body}</p>
@@ -13,7 +21,7 @@ const Card = ({ data }) => {
                         url={window.location.href}
                         title={data.title}
                         description={data.body}
-                        imageUrl="https://media.istockphoto.com/id/513247652/photo/panoramic-beautiful-view-of-mount-ama-dablam.jpg?s=1024x1024&w=is&k=20&c=ZKAEiIpjE9z6pmpZFVvnG_ymfsrZD7wFVPoB0LpLDYA="
+                        imageUrl={data.imageUrl}
                     />
                 </div>
 
