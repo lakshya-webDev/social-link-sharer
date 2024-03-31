@@ -4,7 +4,6 @@ import { fetchDetailedPost, getBlogs } from "../../api/getBlogs";
 import { slugify } from "../../utils/helper";
 import ShareComponent from "../../components/ShareComponent";
 import { Helmet } from "react-helmet";
-import BlogImage from "../../assets/blogImage.png";
 
 const BlogDetailed = () => {
   const location = useLocation();
@@ -27,7 +26,7 @@ const BlogDetailed = () => {
         );
         const response2 = await fetchDetailedPost(foundPost.id);
         const additionalInfo = {
-          imageUrl: BlogImage,
+          imageUrl: `${window.location.href}blogImage.png`,
           url: window.location.href,
         };
         const mergedResponse = {
@@ -46,7 +45,11 @@ const BlogDetailed = () => {
   }, [title]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="loader">
+        <h1>Loading...</h1>
+      </div>
+    );
   }
 
   return (

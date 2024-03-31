@@ -2,17 +2,17 @@ import React, { useEffect, useState } from "react";
 import Card from "../../components/Card";
 import { getBlogs } from "../../api/getBlogs";
 import { Helmet } from "react-helmet";
-import BlogImage from "../../assets/blogImage.png";
 
 const Blogs = () => {
   const [blogsData, setBlogsData] = useState(null);
+  console.log(window.location.href);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     getBlogs()
       .then((response) => {
         setLoading(true);
         const additionalInfo = {
-          imageUrl: BlogImage,
+          imageUrl: `${window.location.href}blogImage.png`,
           url: window.location.href,
         };
         const mergedResponse = response.map((item) => {
@@ -28,7 +28,11 @@ const Blogs = () => {
       });
   }, []);
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="loader">
+        <h1>Loading...</h1>
+      </div>
+    );
   }
   return (
     <React.Fragment>
@@ -39,7 +43,10 @@ const Blogs = () => {
           property="og:description"
           content="Check out our latest blog posts."
         />
-        <meta property="og:image" content={BlogImage} />
+        <meta
+          property="og:image"
+          content={`${window.location.href} blogImage.png`}
+        />
         <meta property="og:url" content={window.location.href} />
       </Helmet>
       <h1>Our Blogs</h1>

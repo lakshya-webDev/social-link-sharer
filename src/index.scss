@@ -224,7 +224,10 @@ form {
   grid-template-columns: minmax(auto,1fr);
   .header-image{
     height: 300px;
+    border-radius: 12px;
+    overflow: hidden;
     img{
+    border-radius: 12px;
      width: 100%;
       height: 100%;
       object-fit: cover;
