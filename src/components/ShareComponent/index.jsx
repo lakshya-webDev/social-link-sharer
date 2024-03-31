@@ -11,27 +11,10 @@ import {
   WhatsappShareButton,
   WhatsappIcon,
 } from "react-share";
-import { Helmet } from "react-helmet";
 
 const ShareComponent = ({ url, title, description, imageUrl }) => {
   return (
     <div className="share-component">
-      <Helmet>
-        <title>{title}</title>
-        <meta charset="utf-8" />
-        <meta property="type" content="website" />
-        <meta property="image" content={imageUrl} />
-        <meta property="twitter:card" content={description} />
-        <meta property="twitter:title" content={title} />
-        <meta property="twitter:image" content={imageUrl} />
-        <meta property="twitter:description" content={description} />
-        <meta property="description" content={description} />
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description} />
-        <meta property="og:image" content={imageUrl} />
-        <meta property="og:url" content={url} />
-        <meta content="image/*" property="og:image:type" />
-      </Helmet>
       <FacebookShareButton
         url={url}
         description={description}

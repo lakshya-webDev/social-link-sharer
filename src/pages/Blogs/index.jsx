@@ -1,14 +1,15 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "../../components/Card";
 import { getBlogs } from "../../api/getBlogs";
 import { Helmet } from "react-helmet";
 
 const Blogs = () => {
   const [blogsData, setBlogsData] = useState(null);
-
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     getBlogs()
       .then((response) => {
+        setLoading(true);
         const additionalInfo = {
           imageUrl:
             "https://media.istockphoto.com/id/513247652/photo/panoramic-beautiful-view-of-mount-ama-dablam.jpg?s=1024x1024&w=is&k=20&c=ZKAEiIpjE9z6pmpZFVvnG_ymfsrZD7wFVPoB0LpLDYA=",
@@ -21,10 +22,16 @@ const Blogs = () => {
       })
       .catch((err) => {
         console.log("Error fetching blogs:", err);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
   return (
-    <div className="blogs-listing">
+    <React.Fragment>
       <Helmet>
         <title>Demo | Our Blogs</title>
         <meta property="og:title" content="Blogs" />
@@ -38,10 +45,14 @@ const Blogs = () => {
         />
         <meta property="og:url" content={window.location.href} />
       </Helmet>
-      {blogsData &&
-        blogsData.length > 0 &&
-        blogsData.map((val, i) => <Card data={val} key={i} />)}
-    </div>
+      <h1>Our Blogs</h1>
+
+      <div className="blogs-listing">
+        {blogsData &&
+          blogsData.length > 0 &&
+          blogsData.map((val, i) => <Card data={val} key={i} />)}
+      </div>
+    </React.Fragment>
   );
 };
 
