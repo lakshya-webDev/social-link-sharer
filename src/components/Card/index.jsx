@@ -15,6 +15,24 @@ const Card = ({ data }) => {
         <meta property="og:description" content={data.body} />
         <meta property="og:image" content={data.imageUrl} />
         <meta property="og:url" content={shareUrl} />
+        {/* <!-- Primary Meta Tags --> */}
+        <title>{data.title}</title>
+        <meta name="title" content={data.title} />
+        <meta name="description" content={data.body} />
+
+        {/* <!-- Open Graph / Facebook --> */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:title" content={data.title} />
+        <meta property="og:description" content={data.body} />
+        <meta property="og:image" content={data.imageUrl} />
+
+        {/* <!-- Twitter --> */}
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content={window.location.href} />
+        <meta property="twitter:title" content={data.title} />
+        <meta property="twitter:description" content={data.body} />
+        <meta property="twitter:image" content={data.imageUrl} />
       </Helmet>
       <div className="card">
         <div className="card-image-wrapper">

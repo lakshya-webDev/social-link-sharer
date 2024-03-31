@@ -4,6 +4,7 @@ import { fetchDetailedPost, getBlogs } from "../../api/getBlogs";
 import { slugify } from "../../utils/helper";
 import ShareComponent from "../../components/ShareComponent";
 import { Helmet } from "react-helmet";
+import BlogImage from "../../assets/blogImage.png";
 
 const BlogDetailed = () => {
   const location = useLocation();
@@ -26,8 +27,7 @@ const BlogDetailed = () => {
         );
         const response2 = await fetchDetailedPost(foundPost.id);
         const additionalInfo = {
-          imageUrl:
-            "https://media.istockphoto.com/id/513247652/photo/panoramic-beautiful-view-of-mount-ama-dablam.jpg?s=1024x1024&w=is&k=20&c=ZKAEiIpjE9z6pmpZFVvnG_ymfsrZD7wFVPoB0LpLDYA=",
+          imageUrl: BlogImage,
           url: window.location.href,
         };
         const mergedResponse = {
@@ -57,6 +57,24 @@ const BlogDetailed = () => {
         <meta property="og:description" content={postsData?.body} />
         <meta property="og:image" content={postsData?.imageUrl} />
         <meta property="og:url" content={window.location.href} />
+        {/* <!-- Primary Meta Tags --> */}
+        <title>{postsData?.title}</title>
+        <meta name="title" content={postsData?.title} />
+        <meta name="description" content={postsData?.body} />
+
+        {/* <!-- Open Graph / Facebook --> */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:title" content={postsData?.title} />
+        <meta property="og:description" content={postsData?.body} />
+        <meta property="og:image" content={postsData?.imageUrl} />
+
+        {/* <!-- Twitter --> */}
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content={window.location.href} />
+        <meta property="twitter:title" content={postsData?.title} />
+        <meta property="twitter:description" content={postsData?.body} />
+        <meta property="twitter:image" content={postsData?.imageUrl} />
       </Helmet>
       <div className="header-image">
         <img src={postsData?.imageUrl} alt={postsData?.title} />
