@@ -26,7 +26,7 @@ const BlogDetailed = () => {
         );
         const response2 = await fetchDetailedPost(foundPost.id);
         const additionalInfo = {
-          imageUrl: `${window.location.href}blogImage.png`,
+          imageUrl: `/blogImage.png`,
           url: window.location.href,
         };
         const mergedResponse = {
