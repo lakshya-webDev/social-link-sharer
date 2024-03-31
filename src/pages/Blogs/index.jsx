@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "../../components/Card";
 import { getBlogs } from "../../api/getBlogs";
 import { Helmet } from "react-helmet";

@@ -1,4 +1,3 @@
-import React from "react";
 import Blogs from "../pages/Blogs";
 import BlogDetailed from "../pages/Blogs/BlogDetailed";
 import { Route, Routes } from "react-router-dom";
