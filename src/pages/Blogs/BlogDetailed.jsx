@@ -1,18 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { fetchDetailedPost, getBlogs } from "../../api/getBlogs";
 import { slugify } from "../../utils/helper";
 import ShareComponent from "../../components/ShareComponent";
-import { Helmet } from "react-helmet";
+import MetaTags from "../../components/MetaTags";
 
 const BlogDetailed = () => {
   const location = useLocation();
-  let title = "";
-  if (location) {
-    const pathSegments = location.pathname.split("/");
-    const lastSegment = pathSegments[pathSegments.length - 1];
-    title = slugify(lastSegment);
-  }
   const [postsData, setPostsData] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -21,19 +15,21 @@ const BlogDetailed = () => {
       try {
         setLoading(true);
         const response = await getBlogs();
+        const pathSegments = location.pathname.split("/");
+        const lastSegment = pathSegments[pathSegments.length - 1];
+        const title = slugify(lastSegment);
         const foundPost = response.find(
           (post) => slugify(post.title) === title
         );
-        const response2 = await fetchDetailedPost(foundPost.id);
-        const additionalInfo = {
-          imageUrl: `/blogImage.png`,
-          url: window.location.href,
-        };
-        const mergedResponse = {
-          ...response2,
-          ...additionalInfo,
-        };
-        setPostsData(mergedResponse);
+        if (foundPost) {
+          const response2 = await fetchDetailedPost(foundPost.id);
+          const additionalInfo = {
+            imageUrl: `https://picsum.photos/300/300`,
+            url: window.location.href,
+          };
+          const mergedResponse = { ...response2, ...additionalInfo };
+          setPostsData(mergedResponse);
+        }
       } catch (error) {
         console.error("Error fetching posts:", error);
       } finally {
@@ -42,9 +38,9 @@ const BlogDetailed = () => {
     };
 
     fetchData();
-  }, [title]);
+  }, [location.pathname]);
 
-  if (loading) {
+  if (loading || !postsData) {
     return (
       <div className="loader">
         <h1>Loading...</h1>
@@ -54,42 +50,28 @@ const BlogDetailed = () => {
 
   return (
     <div className="blog-detailed">
-      <Helmet>
-        <title>{postsData?.title}</title>
-        <meta property="og:title" content={postsData?.title} />
-        <meta property="og:description" content={postsData?.body} />
-        <meta property="og:image" content={postsData?.imageUrl} />
-        <meta property="og:url" content={window.location.href} />
-        {/* <!-- Primary Meta Tags --> */}
-        <title>{postsData?.title}</title>
-        <meta name="title" content={postsData?.title} />
-        <meta name="description" content={postsData?.body} />
-
-        {/* <!-- Open Graph / Facebook --> */}
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={window.location.href} />
-        <meta property="og:title" content={postsData?.title} />
-        <meta property="og:description" content={postsData?.body} />
-        <meta property="og:image" content={postsData?.imageUrl} />
-
-        {/* <!-- Twitter --> */}
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content={window.location.href} />
-        <meta property="twitter:title" content={postsData?.title} />
-        <meta property="twitter:description" content={postsData?.body} />
-        <meta property="twitter:image" content={postsData?.imageUrl} />
-      </Helmet>
+      <MetaTags
+        title={postsData.title}
+        description={postsData.description || ""}
+        ogUrl={window.location.href}
+        ogType="website"
+        ogImage={postsData.imageUrl || ""}
+        twitterCard="summary_large_image"
+        twitterDomain={window.location.hostname}
+        twitterUrl={window.location.href}
+        twitterImage={postsData.imageUrl || ""}
+      />
       <div className="header-image">
-        <img src={postsData?.imageUrl} alt={postsData?.title} />
+        <img src={postsData.imageUrl} alt={postsData.title} />
       </div>
       <div className="blog-description">
-        <h2>{postsData?.title}</h2>
-        <p>{postsData?.body}</p>
+        <h2>{postsData.title}</h2>
+        <p>{postsData.body}</p>
         <ShareComponent
           url={window.location.href}
-          title={postsData?.title}
-          description={postsData?.body}
-          imageUrl={postsData?.imageUrl}
+          title={postsData.title}
+          description={postsData.description || ""}
+          imageUrl={postsData.imageUrl || ""}
         />
       </div>
     </div>

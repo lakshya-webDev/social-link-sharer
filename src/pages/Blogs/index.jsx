@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Card from "../../components/Card";
 import { getBlogs } from "../../api/getBlogs";
 import { Helmet } from "react-helmet";
+import MetaTags from "../../components/MetaTags";
 
 const Blogs = () => {
   const [blogsData, setBlogsData] = useState(null);
@@ -12,7 +13,7 @@ const Blogs = () => {
       .then((response) => {
         setLoading(true);
         const additionalInfo = {
-          imageUrl: `${window.location.href}blogImage.png`,
+          imageUrl: `https://picsum.photos/400/300`,
           url: window.location.href,
         };
         const mergedResponse = response.map((item) => {
@@ -36,19 +37,17 @@ const Blogs = () => {
   }
   return (
     <React.Fragment>
-      <Helmet>
-        <title>Demo | Our Blogs</title>
-        <meta property="og:title" content="Blogs" />
-        <meta
-          property="og:description"
-          content="Check out our latest blog posts."
-        />
-        <meta
-          property="og:image"
-          content={`${window.location.href} blogImage.png`}
-        />
-        <meta property="og:url" content={window.location.href} />
-      </Helmet>
+      <MetaTags
+        title="Demo | Our Blogs"
+        description="Check out our latest blog posts"
+        ogUrl={window.location.href}
+        ogType="website"
+        ogImage={blogsData.imageUrl || ""}
+        twitterCard="summary_large_image"
+        twitterDomain={window.location.hostname}
+        twitterUrl={window.location.href}
+        twitterImage={blogsData.imageUrl || ""}
+      />
       <h1>Our Blogs</h1>
 
       <div className="blogs-listing">
