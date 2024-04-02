@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Card from "../../components/Card";
 import { getBlogs } from "../../api/getBlogs";
-import { Helmet } from "react-helmet";
-import MetaTags from "../../components/MetaTags";
 
 const Blogs = () => {
   const [blogsData, setBlogsData] = useState(null);
-  console.log(window.location.href);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     getBlogs()
@@ -37,17 +34,6 @@ const Blogs = () => {
   }
   return (
     <React.Fragment>
-      <MetaTags
-        title="Demo | Our Blogs"
-        description="Check out our latest blog posts"
-        ogUrl={window.location.href}
-        ogType="website"
-        ogImage={blogsData.imageUrl || ""}
-        twitterCard="summary_large_image"
-        twitterDomain={window.location.hostname}
-        twitterUrl={window.location.href}
-        twitterImage={blogsData.imageUrl || ""}
-      />
       <h1>Our Blogs</h1>
 
       <div className="blogs-listing">

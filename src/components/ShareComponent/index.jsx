@@ -12,14 +12,13 @@ import {
   WhatsappIcon,
 } from "react-share";
 
-const ShareComponent = ({ url, title, description, imageUrl, onCLick }) => {
+const ShareComponent = ({ url, title, description, onCLick }) => {
   return (
     <div className="share-component">
       <FacebookShareButton
         url={url}
         description={description}
         quote={title}
-        imageUrl={imageUrl}
         onClick={onCLick}
       >
         <FacebookIcon size={32} round />
@@ -28,7 +27,6 @@ const ShareComponent = ({ url, title, description, imageUrl, onCLick }) => {
         url={url}
         title={title}
         description={description}
-        imageUrl={imageUrl}
         onClick={onCLick}
       >
         <WhatsappIcon size={32} round />
@@ -37,7 +35,6 @@ const ShareComponent = ({ url, title, description, imageUrl, onCLick }) => {
         url={url}
         title={title}
         description={description}
-        imageUrl={imageUrl}
         onClick={onCLick}
       >
         <TwitterIcon size={32} round />
@@ -46,7 +43,6 @@ const ShareComponent = ({ url, title, description, imageUrl, onCLick }) => {
         url={url}
         title={title}
         description={description}
-        imageUrl={imageUrl}
         onClick={onCLick}
       >
         <InstapaperIcon size={32} round />
@@ -55,7 +51,6 @@ const ShareComponent = ({ url, title, description, imageUrl, onCLick }) => {
         url={url}
         title={title}
         description={description}
-        imageUrl={imageUrl}
         onClick={onCLick}
       >
         <TelegramIcon size={32} round />

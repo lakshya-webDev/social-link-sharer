@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { fetchDetailedPost, getBlogs } from "../../api/getBlogs";
 import { slugify } from "../../utils/helper";
 import ShareComponent from "../../components/ShareComponent";
-import { Helmet } from "react-helmet";
+import MetaTags from "../../components/MetaTags";
 
 const BlogDetailed = () => {
   const location = useLocation();
@@ -42,34 +42,7 @@ const BlogDetailed = () => {
 
   const handleShareClick = (sharingData) => {
     setPostsData(sharingData);
-    updateMetaTags(sharingData); // Call a function to update meta tags
-  };
-
-  const updateMetaTags = (data) => {
-    const { title, description, imageUrl } = data;
-    // Update meta tags using Helmet
-    const helmet = (
-      <Helmet>
-        <title>{title}</title>
-        <meta name="title" content={title} />
-        <meta name="description" content={description || ""} />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={window.location.href} />
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description || ""} />
-        <meta property="og:image" content={imageUrl || ""} />
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:domain" content={window.location.hostname} />
-        <meta property="twitter:url" content={window.location.href} />
-        <meta property="twitter:title" content={title} />
-        <meta property="twitter:description" content={description || ""} />
-        <meta property="twitter:image" content={imageUrl || ""} />
-        {/* Add other meta tags as needed */}
-      </Helmet>
-    );
-
-    // Render the Helmet component to update meta tags
-    return helmet;
+    console.log(sharingData, "sharingData");
   };
 
   if (loading || !postsData) {
@@ -83,7 +56,15 @@ const BlogDetailed = () => {
   return (
     <div className="blog-detailed">
       {/* Render updated meta tags */}
-      {updateMetaTags(postsData)}
+      {postsData && (
+        <MetaTags
+          title={postsData.title}
+          description={postsData.body}
+          ogUrl={`${window.location.href}blog/${slugify(postsData.title)}`}
+          ogType="website"
+          ogImage={postsData.imageUrl}
+        />
+      )}
       <div className="header-image">
         <img src={postsData.imageUrl} alt={postsData.title} />
       </div>
