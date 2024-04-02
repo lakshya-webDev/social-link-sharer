@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { fetchDetailedPost, getBlogs } from "../../api/getBlogs";
 import { slugify } from "../../utils/helper";
 import ShareComponent from "../../components/ShareComponent";
-import MetaTags from "../../components/MetaTags";
+import { Helmet } from "react-helmet";
 
 const BlogDetailed = () => {
   const location = useLocation();
@@ -40,6 +40,38 @@ const BlogDetailed = () => {
     fetchData();
   }, [location.pathname]);
 
+  const handleShareClick = (sharingData) => {
+    setPostsData(sharingData);
+    updateMetaTags(sharingData); // Call a function to update meta tags
+  };
+
+  const updateMetaTags = (data) => {
+    const { title, description, imageUrl } = data;
+    // Update meta tags using Helmet
+    const helmet = (
+      <Helmet>
+        <title>{title}</title>
+        <meta name="title" content={title} />
+        <meta name="description" content={description || ""} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description || ""} />
+        <meta property="og:image" content={imageUrl || ""} />
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:domain" content={window.location.hostname} />
+        <meta property="twitter:url" content={window.location.href} />
+        <meta property="twitter:title" content={title} />
+        <meta property="twitter:description" content={description || ""} />
+        <meta property="twitter:image" content={imageUrl || ""} />
+        {/* Add other meta tags as needed */}
+      </Helmet>
+    );
+
+    // Render the Helmet component to update meta tags
+    return helmet;
+  };
+
   if (loading || !postsData) {
     return (
       <div className="loader">
@@ -50,17 +82,8 @@ const BlogDetailed = () => {
 
   return (
     <div className="blog-detailed">
-      <MetaTags
-        title={postsData.title}
-        description={postsData.description || ""}
-        ogUrl={window.location.href}
-        ogType="website"
-        ogImage={postsData.imageUrl || ""}
-        twitterCard="summary_large_image"
-        twitterDomain={window.location.hostname}
-        twitterUrl={window.location.href}
-        twitterImage={postsData.imageUrl || ""}
-      />
+      {/* Render updated meta tags */}
+      {updateMetaTags(postsData)}
       <div className="header-image">
         <img src={postsData.imageUrl} alt={postsData.title} />
       </div>
@@ -72,6 +95,7 @@ const BlogDetailed = () => {
           title={postsData.title}
           description={postsData.description || ""}
           imageUrl={postsData.imageUrl || ""}
+          onClick={() => handleShareClick(postsData)}
         />
       </div>
     </div>
